@@ -19,7 +19,7 @@ editor.addEventListener("input",() => {
 });
 window.preview =function(){
     const content= editor.value;
-    output.innerHTML= sanitized(content);
+    output.innerHTML=sanitized(content);
 localStorage.setItem("draft", content);
 };
 });
