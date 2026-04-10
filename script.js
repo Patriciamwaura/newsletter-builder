@@ -6,12 +6,12 @@ document.addEventListener("DOMContentLoaded",function(){
                     .replace(/</g,"&lt;")
                     .replace(/>/g, "&gt;")
                     .replace(/\n/g, "<br>");
-    }
+    };
 const saved=localStorage.getItem("draft")
 if (saved){
     editor.value=saved;
     output.innerHTML=sanitized(saved);
-}
+};
 editor.addEventListener("input",() => {
     const content=editor.value;
     output.innerHTML=sanitized (content);
