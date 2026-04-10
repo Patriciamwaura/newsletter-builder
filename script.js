@@ -22,7 +22,6 @@ window.preview =function(){
     output.innerHTML=sanitized(content);
 localStorage.setItem("draft", content);
 };
-});
 window.clearDraft=function(){
     const editor=document.getElementById("editor");
     const output=document.getElementById("output");
@@ -30,3 +29,4 @@ window.clearDraft=function(){
     output.innerHTML="";
     localStorage.removeItem("draft");
 };
+});
