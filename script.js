@@ -7,16 +7,31 @@ document.addEventListener("DOMContentLoaded",function(){
                     .replace(/>/g, "&gt;")
                     .replace(/\n/g, "<br>");
     };
-const saved=localStorage.getItem("draft")
+    function toggleClearButton(){
+        const clearBtn=document.getElementById("clearBtn");
+        const saved=localStorage.getItem("draft");
+        clearBtn.disabled=!(saved && saved.trim()!=="");
+    }
+    function togglePreviewButton(){
+        const previewBtn=document.getElementById("previewBtn");
+        previewBtn.disabled = editor.value.trim() ==="";
+    }
+const saved=localStorage.getItem("draft");
 if (saved){
     editor.value=saved;
     output.innerHTML=sanitized(saved);
 };
-window.preview =function(){
-    const content= editor.value;
-    output.innerHTML= sanitized(content);
-localStorage.setItem("draft", content);
-};
+editor.addEventListener("input",()=>{
+    const content=editor.value;
+    output.innerHTML=sanitized(content);
+    localStorage.setItem("draft",content);
+    toggleClearButton();
+    togglePreviewButton();
+});
+window.preview=function(){
+    const content=editor.value;
+    output.innerHTML=sanitized(content);
+}
     window.confirmClear=function(){
         const confirmBox=document.getElementById("confirmClear");
         confirmBox.innerHTML=`
@@ -25,33 +40,17 @@ localStorage.setItem("draft", content);
         <button onclick="handleClear(false)">No</button>
        `
     };
-editor.addEventListener("input",()=>{
-        const content=editor.value;
-        output.innerHTML=sanitized(content);
-        localStorage.setItem("draft",content);
-        toggleClearButton();
-    });
-    function toggleClearButton() {
-    const clearBtn = document.getElementById("clearBtn");
-    const saved = localStorage.getItem("draft");
-
-    if (saved && saved.trim() !== "") {
-        clearBtn.disabled = false;
-    } else {
-        clearBtn.disabled = true;
-    }
-}
     window.handleClear=function(choice){
-        const editor=document.getElementById("editor");
-        const output=document.getElementById("output");
         const confirmBox=document.getElementById("confirmClear");
         if(choice){
             editor.value="";
             output.innerHTML="";
             localStorage.removeItem("draft");
             toggleClearButton();
+            togglePreviewButton();
         };
-confirmBox.innerHTML=""
-    }
-    });
-
+confirmBox.innerHTML="";
+    };
+    toggleClearButton();
+    togglePreviewButton();
+});
