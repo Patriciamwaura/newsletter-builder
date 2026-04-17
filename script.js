@@ -21,10 +21,19 @@ if (saved){
     editor.value=saved;
     output.innerHTML=sanitized(saved);
 };
+    function wordCount(){
+        const stats=document.getElementById("stats");
+        const content=editor.value;
+        const charCount=content.length;
+        const words=content.trim()===""?[]:content.trim().split(/\s+\);
+        wordCount=words.length;
+        stats.textContent=`Words:${wordCount}|Characters:${charCount}`;
+    }
 editor.addEventListener("input",()=>{
     const content=editor.value;
     output.innerHTML=sanitized(content);
     localStorage.setItem("draft",content);
+    wordcount();
     toggleClearButton();
     togglePreviewButton();
 });
